@@ -96,20 +96,28 @@ export default {
     },
 
   created() {
-    //console.log(this.$store.state.a.ingreso.email)
-    console.log(this.ingreso.email)
+    // Si ya hay un usuario logeado, no puede entrar a la interfaz de login
+    if(this.selectedAuth.loged){
+      return this.$router.replace('/email');    
+    }
   },
 
   computed: {
-   ...mapState("auth", ["ingreso"])
+    ...mapState("auth", [
+     "ingreso",
+     "selectedAuth"
+    ])
   },
 
   methods: {
     ...mapActions("auth", ["login"]),
     async onSubmit() {
-      console.log(this.ingreso.email)
       await this.login()
-      //alert(JSON.stringify(values, null, 2));
+
+      if(this.selectedAuth.loged){
+        return this.$router.replace('/email');    
+      }
+      
     },
     
     

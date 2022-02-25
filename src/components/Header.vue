@@ -2,7 +2,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark header-fixed" >
         <div class="container-fluid">
            
-            <router-link  class="navbar-brand" to="/">Navbar</router-link>
+            <!--<router-link  class="navbar-brand" to="/">Navbar</router-link>-->
             
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -10,22 +10,19 @@
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                <a class="nav-link" href="#">Features</a>
-                </li>
-                <li class="nav-item">
-                <a class="nav-link" href="#">Pricing</a>
+                
+                <router-link class="nav-link active" to="/email">Inicio</router-link>
                 </li>
                 <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Dropdown link
+                   Opciones
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <li><router-link  class="dropdown-item" to="/registro">Registro</router-link></li>
-                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    <li><router-link v-if="!selectedAuth.loged" class="dropdown-item" to="/registro">Registro</router-link></li>
+                    <li><router-link v-if="selectedAuth.loged && selectedAuth.rol == 1" class="dropdown-item" to="/usuarios">Usuarios</router-link></li>
+                    <li><router-link v-if="selectedAuth.loged" class="dropdown-item" to="/email">Enviar correo</router-link></li>
+                    <li><router-link v-if="selectedAuth.loged" class="dropdown-item" to="/lista-email">Correos</router-link></li>
+                    <li><router-link v-if="selectedAuth.loged" @click="logOut" class="dropdown-item" to="/email">Cerrar Sesion</router-link></li>
                 </ul>
                 </li>
             </ul>
@@ -33,6 +30,51 @@
         </div>
     </nav>
 </template>
+
+<script>
+
+import { mapState, mapActions, mapMutations } from "vuex";
+
+export default {
+  name: "Header",
+  
+  data() {
+      return {
+    
+      }
+    },
+
+  created() {
+    
+    /*if(this.selectedAuth.loged){
+      return this.$router.replace('/email');    
+    }*/
+  },
+
+  computed: {
+    ...mapState("auth", [
+     "ingreso",
+     "selectedAuth"
+    ])
+  },
+
+  methods: {
+    ...mapActions("auth", ["logout"]),
+    async logOut() {
+      await this.logout()
+
+      if(!this.selectedAuth.loged){
+        return this.$router.replace('/');    
+      }
+      
+    },
+    
+    
+  },
+};
+
+</script>
+
 
 <style scoped>
 .header-fixed{
