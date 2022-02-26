@@ -1,6 +1,7 @@
 <template >
     
     <div class="container" style="margin-top:150px">
+        <Loader v-if="loader"/>
         <b-table responsive striped hover small :items="emails" :fields="columnas" :tbody-tr-class="unClass">
             <template v-slot:cell(remi)="data">
                 <div>
@@ -14,12 +15,12 @@
 
 <script>
     import { mapState, mapActions, mapMutations } from "vuex";
-
+    import Loader from "../Loader.vue";
     
         export default {
         name: "List-email",
         components: {
-           
+           Loader
         },
 
         data() {
@@ -65,14 +66,19 @@
         },
 
         async created() {
+            this.load(true)
             // No se puede entrar a esta interfaz si no se esta logeado
             if(!this.selectedAuth.loged){
             return this.$router.replace('/');    
             }
             await this.getEmails()
+            this.load(false)
         },
 
         computed: {
+            ...mapState("loader", [
+                "loader"
+            ]),
             ...mapState("auth", [
             "ingreso",
             "selectedAuth"
@@ -84,6 +90,9 @@
         },
 
         methods: {
+            ...mapMutations("loader", [
+                "load"
+            ]),
             ...mapActions("auth", ["login"]),
 
             ...mapActions("emails", ["getEmails"]),

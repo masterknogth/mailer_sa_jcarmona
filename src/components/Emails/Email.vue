@@ -1,6 +1,7 @@
 <template>
     <div class="container" >
         <b-card style="margin-top:150px">
+           <Loader v-if="loader"/>
             <Form @submit="onSubmit" >
                 <br/><br/>
                 <b-row >
@@ -66,7 +67,7 @@
 <script>
 import { mapState, mapActions, mapMutations } from "vuex";
 import { Form, Field, ErrorMessage, defineRule} from "vee-validate";
-
+import Loader from "../Loader.vue";
 
 
 
@@ -76,6 +77,7 @@ export default {
     Form,
     Field,
     ErrorMessage,
+    Loader
   },
 
   data() {
@@ -92,6 +94,9 @@ export default {
   },
 
   computed: {
+    ...mapState("loader", [
+        "loader"
+    ]),
     ...mapState("auth", [
       "ingreso",
       "selectedAuth"
@@ -104,13 +109,16 @@ export default {
   },
 
   methods: {
+    ...mapMutations("loader", [
+        "load"
+    ]),
     ...mapActions("auth", ["login"]),
 
     ...mapActions("emails", ["newEmail"]),
     async onSubmit() {
-      
+      this.load(true)
       await this.newEmail()
-  
+      this.load(false)
     },
     
     
