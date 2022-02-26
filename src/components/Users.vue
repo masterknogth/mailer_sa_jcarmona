@@ -37,8 +37,7 @@
             </b-table>
             <br/>
             <b-pagination
-                aria-controls="my-table"
-                
+                aria-controls="my-table"              
                 v-model="users.current_page"
                 :total-rows="users.total"
                 :per-page="users.perPage"
@@ -46,7 +45,6 @@
             >
            
             </b-pagination>
-             <p class="mt-3">Current Page: {{ users.page }}</p>
         </b-collapse>
       
        
