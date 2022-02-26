@@ -36,15 +36,6 @@
                 </template>
             </b-table>
             <br/>
-            <!--<b-pagination
-                aria-controls="my-table"
-                :total="users.total"     
-                v-model="users.page"
-                :current-page="users.page"
-                :page-sizes="[10, 30, 50, 100]"
-                class="float-left"
-                layout="total, sizes, prev, pager, next"
-            >-->
             <b-pagination
                 aria-controls="my-table"
                 
