@@ -13,3 +13,7 @@ export function setSelectedAuth(state, data) {
     state.selectedAuth.rol = data.rol // asigna rol de usuario
     state.selectedAuth.loged = data.loged // si esta logeado muestra true
 }
+
+export function setSuccess(state,data) {
+    state.success = data
+}

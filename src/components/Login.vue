@@ -26,6 +26,8 @@
                   <div>
                     <button class="btn btn-primary btn-lg btn-block" type="submit">Login</button>
                   </div>
+                  <br/>
+                  <b-alert variant="danger" v-if="success" show>Error de usuario o contraseña</b-alert>
                 </div>
               </div>
             </div>
@@ -34,19 +36,7 @@
       </section>
     </Form> 
 
-      <!--<b-table striped hover :items="items"></b-table>-->
 
-    
-
-    <!--<Form @submit="onSubmit">
-    <Field name="name" as="input" rules="required" />
-    <ErrorMessage name="name" />
-    <br />
-    <Field name="email" as="input" rules="required|email" />
-    <ErrorMessage name="email" />
-    <br />
-    <button>Submit</button>
-    </Form>-->
 </template>
 
 <script>
@@ -65,9 +55,7 @@ defineRule("email", (value) => {
   if (!value || !value.length) {
     return true;
   }
-  /*if (!/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}/.test(value)) {
-    return "El campo debe ser un Email";
-  }*/
+
   if (!value.includes('@')) {
     return "El campo debe ser un Email";
   }
@@ -86,12 +74,7 @@ export default {
 
   data() {
       return {
-        items: [
-          { age: 40, first_name: 'Dickerson', last_name: 'Macdonald' },
-          { age: 21, first_name: 'Larsen', last_name: 'Shaw' },
-          { age: 89, first_name: 'Geneva', last_name: 'Wilson' },
-          { age: 38, first_name: 'Jami', last_name: 'Carney' }
-        ]
+       
       }
     },
 
@@ -105,7 +88,8 @@ export default {
   computed: {
     ...mapState("auth", [
      "ingreso",
-     "selectedAuth"
+     "selectedAuth",
+     "success"
     ])
   },
 

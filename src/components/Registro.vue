@@ -51,7 +51,7 @@
                     <b-col sm="3">
                         <b-form-group>
                             <label>Fecha de nacimiento <span class="text-danger">(*)</span></label>
-                            <Field name="fecha" v-model="selectedUser.fecha_nacimiento" class="form-control form-control-md" type="date" rules="required"/>
+                            <Field name="fecha" v-model="selectedUser.fecha_nacimiento" rules="required" class="form-control form-control-md" type="date" />
                         </b-form-group>
                         <ErrorMessage name="fecha" class="text-danger"/>
                     </b-col>
@@ -59,7 +59,7 @@
                     <b-col sm="3">
                         <b-form-group>
                             <label for="">País <span class="text-danger">(*)</span></label>
-                            <Field name="pais" v-model="selectedIds.country_id" @input="getCountryId" as="select" class="form-control form-control-md" >
+                            <Field name="pais"  v-model="selectedIds.country_id" @input="getCountryId" as="select" class="form-control form-control-md" >
                                 <option :value="null" disabled>-- Por favor Selecciona un opcion --</option>
                                 <option v-for="country in countries" :key="country.id" :value="country.id">
                                 {{ country.name }}
@@ -73,7 +73,7 @@
                         <b-form-group>
                             <label for="">Estado <span class="text-danger">(*)</span></label>
                         
-                           <Field name="estado" :disabled="stateActive" v-model="selectedIds.state_id" @input="getStateId" as="select" class="form-control form-control-md" >
+                           <Field name="estado"  :disabled="stateActive" v-model="selectedIds.state_id" @input="getStateId" as="select" class="form-control form-control-md" >
                                 <option :value="null" disabled>-- Por favor Selecciona un opcion --</option>
                                 <option v-for="state in states" :key="state.id" :value="state.id">
                                 {{ state.name }}
@@ -87,7 +87,7 @@
                         <b-form-group>
                             <label for="">Ciudad <span class="text-danger">(*)</span></label>
                         
-                            <Field name="ciudad" :disabled="cityActive" as="select"  v-model="selectedUser.city_id" class="form-control form-control-md">
+                            <Field name="ciudad"  :disabled="cityActive" as="select"  v-model="selectedUser.city_id" class="form-control form-control-md">
                                 <option :value="null" disabled>-- Por favor Selecciona un opcion --</option>
                                 <option v-for="city in cities" :key="city.id" :value="city.id">
                                 {{ city.name }}
@@ -155,7 +155,7 @@
                 </b-row>
 
                 <br/><br/><br/>
-                <b-alert variant="success" v-if="alert" show>Usuario registrado</b-alert>
+                <b-alert variant="success" v-if="success" show>Usuario registrado</b-alert>
                 <b-row class="row justify-content-center" >
                     <b-col sm="3" >
                         <b-button
@@ -176,23 +176,6 @@
 import { mapState, mapActions, mapMutations } from "vuex";
 import { Form, Field, ErrorMessage, defineRule } from "vee-validate";
 
-defineRule("required", (value) => {
-  if (!value || !value.length) {
-    return "El campo es requerido";
-  }
-  return true;
-});
-
-defineRule("email", (value) => {
-  if (!value || !value.length) {
-    return true;
-  }
-  if (!value.includes('@')) {
-    return "El campo debe ser un Email";
-  }
-  return true;
-  
-});
 
 defineRule('confirmed', (value, [target], ctx) => {
   if (value === ctx.form[target]) {
@@ -214,7 +197,6 @@ export default {
       return {
           stateActive: false,
           cityActive: false,  
-          alert:false,     
       };
   },
 
@@ -235,7 +217,8 @@ export default {
        "selectedIds"
     ]),
     ...mapState("users", [
-       "selectedUser"
+       "selectedUser",
+       "success"
     ]),
     ...mapState("auth", [
      "selectedAuth"
@@ -258,6 +241,12 @@ export default {
     ]),
 
 
+    getFecha(){
+        console.log(this.selectedUser.fecha_nacimiento)
+
+        
+    },
+     
   
      
     // Se obtiene el id del pais para listar los estados que pertenecen al pais

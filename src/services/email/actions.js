@@ -6,10 +6,14 @@ export async function newEmail({ commit, state}) {
     await $http.post('/emails', state.selectedEmail)
     .then((response) => {
         commit('resetSelectedEmail')
+        commit('setSuccess',true)
+        setTimeout(() => {
+            commit('setSuccess',false)
+        },5000)
     })
     .catch((error) => {
-        console.log(error.error)
-        
+        console.log(error.response.data.error)
+        commit('setSuccess',false)
     })
 }
 
@@ -22,7 +26,7 @@ export async function getEmails({ commit}) {
         console.log(response.data.data)
     })
     .catch((error) => {
-        console.log(error.error)
+        console.log(error.response.data.error)
         
     })
 }

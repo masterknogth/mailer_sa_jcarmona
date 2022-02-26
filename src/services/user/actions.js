@@ -7,9 +7,14 @@ export async function newUser({ commit, state}) {
     await $http.post('/signup', state.selectedUser)
     .then((response) => {
         commit('resetSelectedUser');
+        commit('setSuccess',true)
+        setTimeout(() => {
+            commit('setSuccess',false)
+        },5000)
     })
     .catch((error) => {
-        console.log(error.message + '-' + error.errors)
+        console.log(error.response.data.error)
+        commit('setSuccess',false)
         
     })
 }
@@ -22,7 +27,7 @@ export async function getUsers({ commit}) {
         
     })
     .catch((error) => {
-        console.log(error.error)
+        console.log(error.response.data.error)
         
     })
 }

@@ -8,6 +8,7 @@ export const defaultAuth = () => {
 
 export default {
     selectedAuth:defaultAuth(),
+    success:false,
 
     ingreso: {
         email: "",

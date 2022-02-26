@@ -10,4 +10,5 @@ export const defaultEmail = () => {
 export default {
     selectedEmail:defaultEmail(),
     emails:[],
+    success:false
 }

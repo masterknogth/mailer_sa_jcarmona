@@ -9,3 +9,7 @@ export function resetSelectedUser(state) {
 export function setUsers(state, data) {
     state.users = data
 }
+
+export function setSuccess(state,data) {
+    state.success = data
+}

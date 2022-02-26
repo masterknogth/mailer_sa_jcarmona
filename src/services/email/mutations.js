@@ -14,3 +14,7 @@ export function resetEmails(state) {
 export function setEmails(state,data) {
     state.emails = data
 }
+
+export function setSuccess(state,data) {
+    state.success = data
+}

@@ -7,11 +7,16 @@ export async function login({ commit, state}) {
     .then((response) => {
         localStorage.setItem('token', response.data.token)
         commit('setSelectedAuth', response.data)
+        commit('setSuccess',false)
+        
       
     })
     .catch((error) => {
-        console.log(error.error)
-        
+        console.log(error.response.data.error)
+        commit('setSuccess',true)
+        setTimeout(() => {
+            commit('setSuccess',false)
+        },5000)
     })
 }
 
@@ -24,7 +29,7 @@ export async function logout({ commit, state}) {
       
     })
     .catch((error) => {
-        console.log(error.error)
+        console.log(error.response.data.error)
         
     })
 }
