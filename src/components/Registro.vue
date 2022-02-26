@@ -274,13 +274,16 @@ export default {
         this.load(false)
     },
     async onSubmit() {
+        this.load(true)
         await this.newUser()
         //Se limpia los selects de  pais y estado
         this.resetSelectedIds()
+        this.load(false)
         this.alert = true;
         setTimeout(() => {
             this.alert = false;    
         },5000)
+
     },
     
     
