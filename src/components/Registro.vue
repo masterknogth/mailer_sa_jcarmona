@@ -262,12 +262,16 @@ export default {
      
     // Se obtiene el id del pais para listar los estados que pertenecen al pais
     async getCountryId(id){
+        this.load(true)
         await this.getStates(id);
+        this.load(false)
     }, 
 
     // Se obtiene el id del estado para listar las ciudades que pertenecen al estado
     async getStateId(id){
+        this.load(true)
         await this.getCities(id);
+        this.load(false)
     },
     async onSubmit() {
         await this.newUser()
