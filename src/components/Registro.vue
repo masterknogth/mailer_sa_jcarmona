@@ -52,7 +52,7 @@
                     <b-col sm="3">
                         <b-form-group>
                             <label>Fecha de nacimiento <span class="text-danger">(*)</span></label>
-                            <Field name="fecha" v-model="selectedUser.fecha_nacimiento" rules="required" class="form-control form-control-md" type="date" />
+                            <Field name="fecha" max="2004-01-01" v-model="selectedUser.fecha_nacimiento" rules="required" class="form-control form-control-md" type="date" />
                         </b-form-group>
                         <ErrorMessage name="fecha" class="text-danger"/>
                     </b-col>

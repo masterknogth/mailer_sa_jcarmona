@@ -67,7 +67,8 @@
                                 v-model="selectedUser.fecha_nacimiento"
                                 rules="required"
                                 class="form-control form-control-md"
-                                type="date" />
+                                type="date"
+                                max="2004-01-01" />
                             <ErrorMessage name="fecha" class="text-danger"/> 
                         </b-form-group>
                        
