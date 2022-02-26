@@ -180,6 +180,12 @@
                     thStyle: { "min-width": "140px !important" }
                 },
                 {
+                    key: "edad",
+                    label: "Edad",
+                    sortable: true,
+                    thStyle: { "min-width": "140px !important" }
+                },
+                {
                     key: "cedula",
                     label: "Cedula",
                     sortable: true,
