@@ -15,7 +15,9 @@ export const defaultUser = () => {
 
 export const defaultFiltro = () => {
     return {
-        text:""
+        text:"",
+        perPage: 10,
+        page: 1,
     }
 }
 

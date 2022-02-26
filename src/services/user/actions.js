@@ -36,7 +36,6 @@ export async function editUser({ commit, state}) {
 }
 
 export async function deleteUser({ commit, state}) {
-    //console.log(state.idUser)
     await $http.delete(`/delete-user/${state.idUser}`)
     .then((response) => {
         commit('setSuccess',true)
@@ -52,7 +51,7 @@ export async function deleteUser({ commit, state}) {
 }
 
 export async function getUsers({ commit, state}) {
- 
+    commit('loader/load', true, {root: true})
     await $http.post('/users',state.filtro)
     .then((response) => {
         commit('setUsers', response.data.data)
@@ -62,4 +61,13 @@ export async function getUsers({ commit, state}) {
         console.log(error.response.data.error)
         
     })
+    commit('loader/load', false, {root: true});
+}
+
+export function setPagePagination({ commit, dispatch }, page) {    
+    commit('setPage', parseInt(page))
+   
+    dispatch('getUsers')
+    
+    
 }

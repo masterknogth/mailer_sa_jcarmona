@@ -1,5 +1,5 @@
 
-import {defaultUser} from './state'
+import {defaultUser, defaultFiltro} from './state'
 
 // asigna los valores por defecto del estado selectedUser
 export function resetSelectedUser(state) {
@@ -24,3 +24,15 @@ export function setIdUser(state, data) {
     state.idUser = data
 }
 
+
+export function setPage(state, page) {   
+    state.filtro.page = page
+}
+
+export function resetFiltro(state, page) {   
+    state.filtro = defaultFiltro()
+}
+
+export function firtPage(state) {   
+    state.filtro.page = 1
+}

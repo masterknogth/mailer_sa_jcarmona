@@ -6,31 +6,59 @@
                 <b-form-input  size="sm" v-model="filtro.text" placeholder="Buscar"></b-form-input>
             </b-col>
             <b-col sm="1">
-                <b-button variant="primary" size="sm" @click="buscar()">Buscar</b-button>
+                <!--<b-button variant="primary" size="sm" @click="buscar()">Buscar</b-button>-->
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <b-button  variant="primary" size="sm" @click="buscar()">Buscar</b-button>
+                    <b-button  size="sm" @click="limpiar()">Limpiar</b-button>
+                </div>
             </b-col>
         </b-row>  
         <br/>
-        <b-table responsive striped hover small :items="users" :fields="columnas" :tbody-tr-class="unClass">
-            <template v-slot:cell(remi)="data">
-                <div>
-                    {{ data.item.city.name}}
-                </div>           
-            </template>
-            <template v-slot:cell(edit)="data">
-               
-                <button v-b-modal.modal-1 class="bt btn-success btn-sm btn-block" @click="verDatos(data.item)">                            
-                    <!--<i class="fa fa-download fa-lg option"></i>-->  
-                    Editar                                               
-                </button>    
-                                          
-            </template>
-            <template v-slot:cell(delete)="data">
-               
-                <button class="bt btn-danger btn-sm btn-block" v-b-modal.modal-2 @click="getEliminar(data.item)">                            
-                    Eliminar                         
-                </button>                                 
-            </template>
-        </b-table>
+        <b-collapse visible>
+            <b-table id="my-table" :current-page="users.page" responsive striped hover small :items="users.data" :fields="columnas" :tbody-tr-class="unClass">
+                <template v-slot:cell(remi)="data">
+                    <div>
+                        {{ data.item.city.name}}
+                    </div>           
+                </template>
+                <template v-slot:cell(edit)="data">
+                
+                    <button v-b-modal.modal-1 class="bt btn-success btn-sm btn-block" @click="verDatos(data.item)">
+                        Editar                                               
+                    </button>    
+                                            
+                </template>
+                <template v-slot:cell(delete)="data">
+                
+                    <button class="bt btn-danger btn-sm btn-block" v-b-modal.modal-2 @click="getEliminar(data.item)">                            
+                        Eliminar                         
+                    </button>                                 
+                </template>
+            </b-table>
+            <br/>
+            <!--<b-pagination
+                aria-controls="my-table"
+                :total="users.total"     
+                v-model="users.page"
+                :current-page="users.page"
+                :page-sizes="[10, 30, 50, 100]"
+                class="float-left"
+                layout="total, sizes, prev, pager, next"
+            >-->
+            <b-pagination
+                aria-controls="my-table"
+                
+                v-model="users.current_page"
+                :total-rows="users.total"
+                :per-page="users.perPage"
+                @click.native ="setPagePagination(users.current_page)"
+            >
+           
+            </b-pagination>
+             <p class="mt-3">Current Page: {{ users.page }}</p>
+        </b-collapse>
+      
+       
 
        
         <b-modal id="modal-1" title="Editar usuario" hide-footer>
@@ -241,6 +269,7 @@
             if(!this.selectedAuth.loged){
                 return this.$router.replace('/');    
             }
+            console.log(this.users)
             await this.getUsers()
             this.load(false)
             
@@ -276,7 +305,8 @@
             ...mapActions("users", [
                 "getUsers",
                 "editUser",
-                "deleteUser"
+                "deleteUser",
+                "setPagePagination"
             ]),
             ...mapActions("regions", [
                 "getCountries",
@@ -285,7 +315,9 @@
             ]),
             ...mapMutations("users", [
                 "setUserEdit",
-                "setIdUser"
+                "setIdUser",
+                "resetFiltro",
+                "firtPage"
             ]),
 
             // Se obtiene el id del pais para listar los estados que pertenecen al pais
@@ -304,6 +336,13 @@
 
             async buscar(){
                 this.load(true)
+                this.firtPage()    
+                await this.getUsers()
+                this.load(false)
+            },
+            async limpiar(){
+                this.load(true)
+                this.resetFiltro()
                 await this.getUsers()
                 this.load(false)
             },
@@ -328,6 +367,9 @@
                 this.load(false)
             },
 
+            aver(){
+                alert(this.users.page)
+            },
             getEliminar(data){
                 this.setIdUser(data.id)
             },
