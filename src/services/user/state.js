@@ -13,6 +13,11 @@ export const defaultUser = () => {
     }
 }
 
+export const defaultFiltro = () => {
+    return {
+        text:""
+    }
+}
 
 export default {
     selectedUser:defaultUser(),
@@ -20,6 +25,8 @@ export default {
     success:false,
     idUser:{
         id: ''
-    }
+    },
+    filtro:defaultFiltro()
+   
    
 }

@@ -51,9 +51,9 @@ export async function deleteUser({ commit, state}) {
     })
 }
 
-export async function getUsers({ commit}) {
+export async function getUsers({ commit, state}) {
  
-    await $http.get('/users')
+    await $http.post('/users',state.filtro)
     .then((response) => {
         commit('setUsers', response.data.data)
         

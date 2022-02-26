@@ -1,6 +1,15 @@
 <template>
     <div class="container" style="margin-top:150px">
         <Loader v-if="loader"/>
+        <b-row class="my-1">
+            <b-col sm="3">
+                <b-form-input  size="sm" v-model="filtro.text" placeholder="Buscar"></b-form-input>
+            </b-col>
+            <b-col sm="1">
+                <b-button variant="primary" size="sm" @click="buscar()">Buscar</b-button>
+            </b-col>
+        </b-row>  
+        <br/>
         <b-table responsive striped hover small :items="users" :fields="columnas" :tbody-tr-class="unClass">
             <template v-slot:cell(remi)="data">
                 <div>
@@ -203,16 +212,11 @@
                     sortable: true,
                     thStyle: { "min-width": "140px !important" }
                 },
-                /*{
-                    key: "city_id",
-                    label: "id ciudad",
-                    sortable: true,
-                    thStyle: { "min-width": "140px !important" }
-                },*/
-                
+                           
                 {
                     key: "remi",
                     label: "Ciudad",
+                    sortable: true,
                     thStyle: { "min-width": "150px !important", width: "80px !important" }
                 },
                 {
@@ -252,7 +256,8 @@
                 "success",
                 "users",
                 "selectedUser",
-                "idUser"
+                "idUser",
+                "filtro"
             ]),
            ...mapState("regions", [
                 "countries",
@@ -296,6 +301,11 @@
                 this.load(false)
             },
 
+            async buscar(){
+                this.load(true)
+                await this.getUsers()
+                this.load(false)
+            },
             async verDatos(data){
                 this.load(true)
 
@@ -329,7 +339,6 @@
             },
 
             async enviar(){
-                console.log(this.selectedUser)
                 this.load(true)
                 await this.editUser()
                 await this.getUsers()
