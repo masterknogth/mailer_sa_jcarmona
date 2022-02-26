@@ -1,5 +1,6 @@
 <template>
     <div class="container" >
+        <Loader v-if="loader"/>
         <b-card style="margin-top:150px">
             <Form @submit="onSubmit">
                 <br/><br/>
@@ -59,7 +60,7 @@
                     <b-col sm="3">
                         <b-form-group>
                             <label for="">País <span class="text-danger">(*)</span></label>
-                            <Field name="pais"  v-model="selectedIds.country_id" @input="getCountryId" as="select" class="form-control form-control-md" >
+                            <Field name="pais"  v-model="selectedIds.country_id" @input="getCountryId(selectedIds.country_id)" as="select" class="form-control form-control-md" >
                                 <option :value="null" disabled>-- Por favor Selecciona un opcion --</option>
                                 <option v-for="country in countries" :key="country.id" :value="country.id">
                                 {{ country.name }}
@@ -73,7 +74,7 @@
                         <b-form-group>
                             <label for="">Estado <span class="text-danger">(*)</span></label>
                         
-                           <Field name="estado"  :disabled="stateActive" v-model="selectedIds.state_id" @input="getStateId" as="select" class="form-control form-control-md" >
+                           <Field name="estado"  :disabled="stateActive" v-model="selectedIds.state_id" @input="getStateId(selectedIds.state_id)" as="select" class="form-control form-control-md" >
                                 <option :value="null" disabled>-- Por favor Selecciona un opcion --</option>
                                 <option v-for="state in states" :key="state.id" :value="state.id">
                                 {{ state.name }}
@@ -175,6 +176,7 @@
 <script>
 import { mapState, mapActions, mapMutations } from "vuex";
 import { Form, Field, ErrorMessage, defineRule } from "vee-validate";
+import Loader from "./Loader.vue";
 
 
 defineRule('confirmed', (value, [target], ctx) => {
@@ -191,6 +193,7 @@ export default {
     Form,
     Field,
     ErrorMessage,
+    Loader
   }, 
 
   data() {
@@ -202,14 +205,19 @@ export default {
 
   async created() {
     // No se puede entrar a esta interfaz si ya se esta logeado  
+    this.load(true)
     if(this.selectedAuth.loged){
       return this.$router.replace('/email');    
     }
     await this.getCountries();
+    this.load(false)
 
   },
 
   computed: {
+    ...mapState("loader", [
+        "loader"
+    ]),
    ...mapState("regions", [
        "countries",
        "states",
@@ -226,6 +234,9 @@ export default {
   },
 
   methods: {
+    ...mapMutations("loader", [
+        "load"
+    ]),
     ...mapActions("regions", [
         "getCountries",
         "getStates",
@@ -250,13 +261,13 @@ export default {
   
      
     // Se obtiene el id del pais para listar los estados que pertenecen al pais
-    async getCountryId(){
-        await this.getStates();
+    async getCountryId(id){
+        await this.getStates(id);
     }, 
 
     // Se obtiene el id del estado para listar las ciudades que pertenecen al estado
-    async getStateId(){
-        await this.getCities();
+    async getStateId(id){
+        await this.getCities(id);
     },
     async onSubmit() {
         await this.newUser()

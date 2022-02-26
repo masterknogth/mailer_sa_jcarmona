@@ -11,32 +11,29 @@ export async function getCountries({ commit}) {
         commit('setCountries', response.data.data)
     })
     .catch((error) => {
-        console.log(error.message + '-' + error.errors)
+        console.log(error.response.data.error)
         
     })
 }
 
 //Lista los estados pertenecientes a un pais
-export async function getStates({ commit, state}) {
-    await $http.get(`/states/${state.selectedIds.country_id}`)
+export async function getStates({ commit, state}, id) {
+    await $http.get(`/states/${id}`)
     .then((response) => {
-        console.log(response.data.data)
         commit('setStates', response.data.data)
     })
     .catch((error) => {
-        console.log(error.message + '-' + error.errors)
-        
+        console.log(error.response.data.error)      
     })
 }
 
 //Lista las ciudades pertenciente a un estado
-export async function getCities({commit, state}) {   
-    await $http.get(`/cities/${state.selectedIds.state_id}`)
+export async function getCities({commit, state}, id) {      
+    await $http.get(`/cities/${id}`)
     .then((response) => {
         commit('setCities', response.data.data)
     })
     .catch((error) => {
-        console.log(error.message + '-' + error.errors)
-        
+        console.log(error.response.data.error)       
     })
 }

@@ -13,3 +13,14 @@ export function setUsers(state, data) {
 export function setSuccess(state,data) {
     state.success = data
 }
+
+export function setUserEdit(state, data) {
+
+    state.selectedUser = data
+
+}
+
+export function setIdUser(state, data) {
+    state.idUser = data
+}
+

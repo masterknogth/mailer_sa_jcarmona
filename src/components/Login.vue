@@ -1,6 +1,7 @@
 <template>
     
     <Form @submit="onSubmit">
+      <Loader v-if="loader"/>
       <section class="vh-100" >
         <div class="container py-5 h-100">
           <div class="row d-flex justify-content-center align-items-center h-100">
@@ -43,6 +44,7 @@
 import { createApp } from 'vue'
 import { mapState, mapActions, mapMutations } from "vuex";
 import { Form, Field, ErrorMessage, defineRule } from "vee-validate";
+import Loader from "./Loader.vue";
 
 
 defineRule("required", (value) => {
@@ -70,6 +72,7 @@ export default {
     Form,
     Field,
     ErrorMessage,
+    Loader
   },
 
   data() {
@@ -80,12 +83,16 @@ export default {
 
   created() {
     // Si ya hay un usuario logeado, no puede entrar a la interfaz de login
+    this.load(false)
     if(this.selectedAuth.loged){
       return this.$router.replace('/email');    
     }
   },
 
   computed: {
+    ...mapState("loader", [
+        "loader"
+    ]),
     ...mapState("auth", [
      "ingreso",
      "selectedAuth",
@@ -94,13 +101,19 @@ export default {
   },
 
   methods: {
+    ...mapMutations("loader", [
+        "load"
+    ]),
     ...mapActions("auth", ["login"]),
-    async onSubmit() {
-      await this.login()
 
+    async onSubmit() {
+      this.load(true)
+      await this.login()
+      this.load(false)
       if(this.selectedAuth.loged){
         return this.$router.replace('/email');    
       }
+      
       
     },
     

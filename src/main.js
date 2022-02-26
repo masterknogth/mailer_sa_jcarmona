@@ -5,7 +5,11 @@ import router from "./router";
 import 'vee-validate';
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import BootstrapVue from 'bootstrap-vue-3'
+import BootstrapVue from 'bootstrap-vue-3';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faUserSecret } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
 
 
 const app = createApp(App);

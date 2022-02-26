@@ -1,5 +1,6 @@
 <template>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark header-fixed" >
+        <Loader v-if="loader"/>
         <div class="container-fluid">
            
             <!--<router-link  class="navbar-brand" to="/">Navbar</router-link>-->
@@ -34,9 +35,13 @@
 <script>
 
 import { mapState, mapActions, mapMutations } from "vuex";
+import Loader from "./Loader.vue";
 
 export default {
   name: "Header",
+  components: {     
+      Loader
+  }, 
   
   data() {
       return {
@@ -52,20 +57,40 @@ export default {
   },
 
   computed: {
+    ...mapState("loader", [
+        "loader"
+    ]),
     ...mapState("auth", [
-     "ingreso",
-     "selectedAuth"
+      "ingreso",
+      "selectedAuth"
+    ]),
+    ...mapState("users", [
+      "selectedUser"
     ])
   },
 
   methods: {
+    ...mapMutations("loader", [
+        "load"
+    ]),
     ...mapActions("auth", ["logout"]),
-    async logOut() {
-      await this.logout()
+    ...mapMutations("users", [
+        "resetSelectedUser"
+    ]),
 
+    ...mapMutations("regions", [
+        "resetSelectedIds"
+    ]),
+    
+    async logOut() {
+      this.load(true)
+      await this.logout()
+      this.resetSelectedUser()
+      this.resetSelectedIds()
       if(!this.selectedAuth.loged){
         return this.$router.replace('/');    
       }
+      this.load(false)
       
     },
     

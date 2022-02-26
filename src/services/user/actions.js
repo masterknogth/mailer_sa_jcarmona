@@ -19,6 +19,38 @@ export async function newUser({ commit, state}) {
     })
 }
 
+export async function editUser({ commit, state}) {
+ 
+    await $http.put('/update-user', state.selectedUser)
+    .then((response) => {
+        commit('setSuccess',true)
+        setTimeout(() => {
+            commit('setSuccess',false)
+        },5000)
+    })
+    .catch((error) => {
+        console.log(error.response.data.error)
+        commit('setSuccess',false)
+        
+    })
+}
+
+export async function deleteUser({ commit, state}) {
+    //console.log(state.idUser)
+    await $http.delete(`/delete-user/${state.idUser}`)
+    .then((response) => {
+        commit('setSuccess',true)
+        setTimeout(() => {
+            commit('setSuccess',false)
+        },5000)
+    })
+    .catch((error) => {
+        console.log(error.response.data.error)
+        commit('setSuccess',false)
+        
+    })
+}
+
 export async function getUsers({ commit}) {
  
     await $http.get('/users')

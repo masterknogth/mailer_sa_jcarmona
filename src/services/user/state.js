@@ -13,8 +13,13 @@ export const defaultUser = () => {
     }
 }
 
+
 export default {
     selectedUser:defaultUser(),
     users:[],
-    success:false
+    success:false,
+    idUser:{
+        id: ''
+    }
+   
 }
