@@ -15,7 +15,7 @@
         </b-row>  
         <br/>
         <b-collapse visible>
-            <b-table id="my-table" :current-page="users.page" responsive striped hover small :items="users.data" :fields="columnas" :tbody-tr-class="unClass">
+            <b-table id="my-table"  responsive striped hover small :items="users.data" :fields="columnas" :tbody-tr-class="unClass">
                 <template v-slot:cell(remi)="data">
                     <div>
                         {{ data.item.city.name}}
@@ -38,10 +38,10 @@
             <br/>
             <b-pagination
                 aria-controls="my-table"              
-                v-model="users.current_page"
+                v-model="filtro.page"
                 :total-rows="users.total"
-                :per-page="users.perPage"
-                @click.native ="setPagePagination(users.current_page)"
+                :per-page="filtro.perPage"
+                @click.native ="setPagePagination(filtro.page)"
             >
            
             </b-pagination>
@@ -258,8 +258,9 @@
             if(!this.selectedAuth.loged){
                 return this.$router.replace('/');    
             }
-            console.log(this.users)
+           
             await this.getUsers()
+             console.log(this.users)
             this.load(false)
             
         },
