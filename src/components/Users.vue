@@ -50,14 +50,7 @@
                     </b-pagination>
                 </b-col>
                 <b-col sm="auto" style="background:re">                  
-                    <!--<select>
-                        <option>10</option>
-                        <option>30</option>
-                        <option>50</option>
-                        <option>100</option>
-                    </select>   --> 
-                    <b-form-select v-model="filtro.perPage" @input="setPerPagePagination(filtro.perPage)" :options="sizes"></b-form-select>   
-                           
+                    <b-form-select v-model="filtro.perPage" @input="setPerPagePagination(filtro.perPage)" :options="sizes"></b-form-select>                    
                 </b-col>
             </b-row>
             
