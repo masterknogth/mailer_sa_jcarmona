@@ -36,15 +36,31 @@
                 </template>
             </b-table>
             <br/>
-            <b-pagination
-                aria-controls="my-table"              
-                v-model="filtro.page"
-                :total-rows="users.total"
-                :per-page="filtro.perPage"
-                @click.native ="setPagePagination(filtro.page)"
-            >
-           
-            </b-pagination>
+            <b-row>
+                <b-col sm="auto" style="background:blu">
+                    <b-pagination
+                        aria-controls="my-table"              
+                        v-model="filtro.page"
+                        :total-rows="users.total"
+                        :per-page="filtro.perPage"
+ 
+                        @click.native ="setPagePagination(filtro.page)"
+                    >
+                
+                    </b-pagination>
+                </b-col>
+                <b-col sm="auto" style="background:re">                  
+                    <!--<select>
+                        <option>10</option>
+                        <option>30</option>
+                        <option>50</option>
+                        <option>100</option>
+                    </select>   --> 
+                    <b-form-select v-model="filtro.perPage" @input="setPerPagePagination(filtro.perPage)" :options="sizes"></b-form-select>   
+                           
+                </b-col>
+            </b-row>
+            
         </b-collapse>
       
        
@@ -182,6 +198,7 @@
 
         data() {
             return {
+                sizes:['10','30','50','100'],
                 columnas: [{
                     key: "id",
                     label: "#",
@@ -296,7 +313,8 @@
                 "getUsers",
                 "editUser",
                 "deleteUser",
-                "setPagePagination"
+                "setPagePagination",
+                "setPerPagePagination"
             ]),
             ...mapActions("regions", [
                 "getCountries",

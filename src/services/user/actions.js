@@ -65,9 +65,11 @@ export async function getUsers({ commit, state}) {
 }
 
 export function setPagePagination({ commit, dispatch }, page) {    
-    commit('setPage', parseInt(page))
-   
-    dispatch('getUsers')
-    
-    
+    commit('setPage', parseInt(page)) 
+    dispatch('getUsers') 
+}
+
+export function setPerPagePagination({ commit, dispatch}, perPage) {
+    commit('setPerPage', parseInt(perPage))  
+    dispatch('getUsers')  
 }

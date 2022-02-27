@@ -20,18 +20,27 @@ export function setUserEdit(state, data) {
 
 }
 
+//Se obtiene el id de un usuario
 export function setIdUser(state, data) {
     state.idUser = data
 }
 
-
+//Cambia de pagina
 export function setPage(state, page) {   
     state.filtro.page = page
 }
 
+//cambia cuantos items se vera por pagina
+export function setPerPage(state, perPage) {
+    state.filtro.page = 1
+    state.filtro.perPage = perPage
+}
+
+//Pone por defecto los valores del estado filtro
 export function resetFiltro(state, page) {   
     state.filtro = defaultFiltro()
 }
+
 
 export function firtPage(state) {   
     state.filtro.page = 1
